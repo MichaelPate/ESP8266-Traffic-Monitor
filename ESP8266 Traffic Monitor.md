@@ -192,9 +192,6 @@ To change the ssid, send `SSID networkName` and it will change the network SSID 
 
 A new project was created on the google API console. From there, go to library and search for the following APIs. These where what was enabled to make sure this project would work. Enable a maps API and it will walk you through how to characterize your use of the API. Then it gives the option to enable all maps APIs and thats what was done. The result was an API key. 
 
-### DO NOT SHARE THIS KEY
-`AIzaSyAbGx5J9zFxtnviLnU5Hxt0h3q7_lXhcco`
-
 ## Work: 40.560708, -105.028877
 ## Home: 40.155543, -105.048291
 
@@ -220,3 +217,35 @@ A new project was created on the google API console. From there, go to library a
   
 }
 ```
+
+## Results
+
+So far its working correctly. Version 100 as seen in the file structure is complete but could use refactoring and optimization. Nevertheless, full functionality is present.
+
+The device will power on and self test the display and the LEDs. Then, it will establish a WiFi connection and get the unix epoch, declaring the time that it was started.
+
+Next, the device will begin to automatically poll the Google Maps Routes API, see the key in the developer console, and display the time on the display.
+
+Once `PWR_ON_DISP_TIME` seconds have elapsed, the display will turn off to prolong the lifespan of the OLED display. To turn the display on, hold the button down until the display shows the traffic time. Otherwise, use the LEDs to get an idea of the commute.
+
+The LEDs will always be lit, and as of version 100, will be green for times less than 40 minutes, yellow for times 40-50 minutes, and red for times >50 minutes. These give a quick glance at the commute time without needing to turn on the display.
+
+When the display is on, the top left will show the device's IP address, the top right will have a clock, and the center screen is the commute time between the sets of coordinates given in the JSON request body.
+
+The highest number version is the latest, starting at 100.
+
+## Issues
+
+There were many issues with parsing the JSON and it took a lot of trial and error to get it right. This program serves as a good example of building a POST request with headers and a JSON body, sending the POST request, and parsing a JSON response from an API. 
+
+For the ESP8266, note that D1 for SCL and D2 for SDA are the defaults. This is what pins youll need to use if you use any build in I2C functionality. 
+
+## Future Work
+
+A case needs to be 3D printed so that its durable enough to sit on a desktop.
+
+It would be nice if you could set the coordinates for origin and destination over serial, as well as other features like display timeout time. This makes it user friendly over having to reprogram it every time, which takes a while. Config would be stored in EEPROM.
+
+Add a feature to turn the display on automatically during certain times of day. For example, the home device can turn on in the half hour of time around when you normally leave for work and the work device comes on automatically in the half hour around quitting time. This should also be configurable over serial.
+
+The code needs refactored and could be cleaned up.
