@@ -125,7 +125,7 @@ void loop() {
     if (https.begin(*client, "https://routes.googleapis.com/directions/v2:computeRoutes")) {  // HTTPS
       // Add header information
       https.addHeader("Content-Type", "application/json");
-      https.addHeader("X-Goog-Api-Key", "AIzaSyBUdJXMeCrOQZyBVrKHxI_kFj5uY1f8uIs");
+      https.addHeader("X-Goog-Api-Key", "AIzaSyBUdJXMeCrOQZyBVrKHxI_kFj5uY1f8uIs"); //this key is no longer valid so try all you want
       https.addHeader("X-Goog-FieldMask", "routes.duration,routes.distanceMeters,routes.polyline.encodedPolyline");
 
       // send the POST request

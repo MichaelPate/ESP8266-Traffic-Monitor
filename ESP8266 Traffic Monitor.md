@@ -244,6 +244,8 @@ For the ESP8266, note that D1 for SCL and D2 for SDA are the defaults. This is w
 
 A case needs to be 3D printed so that its durable enough to sit on a desktop.
 
+Designing a quick PCB would be cheap and make for much more durable and tidy assembly.
+
 It would be nice if you could set the coordinates for origin and destination over serial, as well as other features like display timeout time. This makes it user friendly over having to reprogram it every time, which takes a while. Config would be stored in EEPROM.
 
 Add a feature to turn the display on automatically during certain times of day. For example, the home device can turn on in the half hour of time around when you normally leave for work and the work device comes on automatically in the half hour around quitting time. This should also be configurable over serial.
