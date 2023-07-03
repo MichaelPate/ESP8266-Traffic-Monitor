@@ -180,6 +180,7 @@ void loop() {
         display.clearDisplay();
         display.display();
       }
+      
 
       if (durationMinutes < 40) {
         digitalWrite(GRN_LED, HIGH);
