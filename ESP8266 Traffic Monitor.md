@@ -35,16 +35,21 @@ Using the OLED with the ACROBOTIC_SSD1306 library did not work out of the box. C
 ## Hardware
 
 PCB pin label (arduino IDE number)
-- Red LED:          D6 (12)
-- Yellow LED:      D1 (5)
-- Green LED:       D2 (4)
-- Button:             D5 (14)
-- OLED SDA:       D4 (2)
-- OLED SCL:        D3 (0)
+- OLED SCL:      D1     (5)
+- OLED SDA:     D2     (4)
+- Button:            D3    (0)
+- Green LED:     D7      (13)
+- Yellow LED:     D5     (14)
+- Red LED:          D6     (12)
+
 
 One side of the button is connected to ground and the other side is connected to the ESP pin and VCC through a 1k resistor. This configures it as an active low button, so it will read as a '1' when not pressed and a '0' when pressed. The button could be used to refresh the display or turn on the OLED or something.
 
 The LEDs are connected to ground through a 330 resistor to limit current. They are standard 5mm LEDs.
+
+## Watchdog
+
+The ESP has a watchdog timer that must be fed. If you have a loop that goes for more than about a second and does not include a delay statement, call yield(). This will feed the watchdog.
 
 ## Hardware test code
 
@@ -113,7 +118,7 @@ https://www.arduino.cc/reference/en/libraries/wifi/
 
 
 
-This code will connect the ESP to a wifi network and give you its IP address. Replace ssid and password with the correct credentials for the network
+This code will connect the ESP to a wifi network and give you its IP address. Replace ssid and password with the correct credentials for the network. See code files in repository.
 
 ```
 #include <ESP8266WiFi.h>        // Include the Wi-Fi library
@@ -157,3 +162,61 @@ https://github.com/witnessmenow/arduino-traffic-notifier
 This gives me an idea to use Twilio to configure the ESP instead of a Telegram bot as he used. Look to see if twilio is easy to use with an ESP8266
 https://www.twilio.com/docs/sms/tutorials/how-to-send-sms-messages-esp8266-cpp
 https://github.com/TwilioDevEd/twilio_esp8266_arduino_example
+
+## USB Configuration
+
+The device can be configured by using a serial terminal, such as the Arduino IDE terminal or PuTTY. The configuration should be stored in EEPROM when changed so that the device remembers its settings.
+
+The settings that can be changed are:
+1. Start location
+2. End location
+3. Network credentials
+4. How the display behaves
+	1. An idea is the display will only turn on for an hour or so a day at a specific time, such as before work or near the end of work. This reduces burn in while making the device fully hands-free during that time period. The config here would set the time that it does this. Time would be gathered from the internet somewhere.
+
+The device will not communicate with a serial monitor unless the serial monitor sends something first. In the program loop, it will check for serial data every cycle, but not waiting for it unless there was actual data ready. Sending the device a byte will trigger it and it will respond with a list of options. Sending a command in the right format will change the device settings
+
+Example:
+```
+OPTIONS:
+1. CHANGE START LOCATION
+2. CHANGE END LOCATION
+3. CHANGE SSID
+4. CHANGE PASSWORD
+5. CHANGE DISPLAY
+```
+
+To change the ssid, send `SSID networkName` and it will change the network SSID it tries to connect to.
+
+## Google APIs
+
+A new project was created on the google API console. From there, go to library and search for the following APIs. These where what was enabled to make sure this project would work. Enable a maps API and it will walk you through how to characterize your use of the API. Then it gives the option to enable all maps APIs and thats what was done. The result was an API key. 
+
+### DO NOT SHARE THIS KEY
+`AIzaSyAbGx5J9zFxtnviLnU5Hxt0h3q7_lXhcco`
+
+## Work: 40.560708, -105.028877
+## Home: 40.155543, -105.048291
+
+## Request JSON body:
+```
+{
+  "origin": {
+    "location": {
+      "latLng": {
+        "latitude": 40.155543,
+        "longitude": -105.048291
+      }
+    }
+  },
+  "destination": {
+    "location": {
+      "latLng": {
+        "latitude": 40.560708,
+        "longitude": -105.028877
+      }
+    }
+  },
+  
+}
+```

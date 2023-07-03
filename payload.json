@@ -1,0 +1,28 @@
+{"origin":{
+    "location":{
+      "latLng":{
+        "latitude": 40.155543,
+        "longitude": -105.048291
+      }
+    }
+  },
+  "destination":{
+    "location":{
+      "latLng":{
+        "latitude": 40.560708,
+        "longitude": -105.028877
+      }
+    }
+  },
+  "travelMode": "DRIVE",
+  "routingPreference": "TRAFFIC_AWARE",
+  "departureTime": "2023-10-15T15:01:23.045123456Z",
+  "computeAlternativeRoutes": false,
+  "routeModifiers": {
+    "avoidTolls": false,
+    "avoidHighways": false,
+    "avoidFerries": false
+  },
+  "languageCode": "en-US",
+  "units": "IMPERIAL"
+}
